@@ -1,0 +1,12 @@
+version: "3.3"
+
+services:
+
+  telegram-bot:
+    build:
+      context: .
+    container_name: telegram-bot
+    command: sh -c "cd /usr/src/telegram-bot && python -m app"
+    restart: always
+    volumes:
+      - .:/usr/src/telegram-bot
