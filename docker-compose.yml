@@ -5,7 +5,7 @@ services:
   telegram-bot:
     build:
       context: .
-    container_name: telegram-bot
+    container_name: Telegraph-Uploader-Bot
     command: sh -c "cd /usr/src/telegram-bot && python -m app"
     restart: always
     volumes:
