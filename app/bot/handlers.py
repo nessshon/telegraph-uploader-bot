@@ -49,9 +49,6 @@ async def message_upload(message: Message, state: FSMContext):
                 file = await message.document.download(destination_file=file)
 
             uploaded = await telegraph.upload_file(file.getbuffer())
-            await emoji.edit_text("🥳")
-
-            await asyncio.sleep(1.8)
             await edit_message(emoji, uploaded.url, disable_web_page_preview=True)
 
         except FileToBigError as e:
