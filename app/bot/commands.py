@@ -26,7 +26,7 @@ async def command_start(message: Message, state: FSMContext):
         title=message.from_user.first_name,
         url=message.from_user.url
     )
-    text = Text(message.from_user.language_code).get("start")
+    text = Text().get("start")
 
     await edit_message(emoji, text.format(user_link))
     async with state.proxy() as data:
@@ -42,7 +42,7 @@ async def command_source(message: Message, state: FSMContext):
     await delete_message(message)
     await asyncio.sleep(2)
 
-    text = Text(message.from_user.language_code).get("source")
+    text = Text().get("source")
     await edit_message(emoji, text)
     await state.update_data(message_id=emoji.message_id)
 

@@ -1,3 +1,6 @@
+from aiogram.types import User
+
+
 class Text:
     strings = {
         "en": {
@@ -60,8 +63,9 @@ class Text:
         }
     }
 
-    def __init__(self, language: str):
-        self.language = language
+    def __init__(self):
+        language_code = User.get_current().language_code
+        self.language_code = language_code if language_code == "ru" else "en"
 
     def get(self, key: str) -> str:
-        return self.strings[self.language][key]
+        return self.strings[self.language_code][key]

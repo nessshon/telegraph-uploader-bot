@@ -23,8 +23,6 @@ ALLOWED_CONTENT_TYPES = [
 @rate_limit(2.2)
 @waiting_previous_execution
 async def message_upload(message: Message, state: FSMContext):
-    language_code = message.from_user.language_code
-
     if message.content_type in ALLOWED_CONTENT_TYPES:
         telegraph = Telegraph()
         file, file_size = io.BytesIO(), 0
@@ -56,7 +54,7 @@ async def message_upload(message: Message, state: FSMContext):
             await asyncio.sleep(2)
 
             file_size = e.__str__().split(":")[1]
-            text = Text(language_code).get("file_to_big_error")
+            text = Text().get("file_to_big_error")
             await emoji.edit_text(text.format(file_size))
 
         except RetryAfterError as e:
@@ -64,21 +62,21 @@ async def message_upload(message: Message, state: FSMContext):
             await asyncio.sleep(2)
 
             seconds = re.match(r"\d+", e.__str__())
-            text = Text(language_code).get("retry_after_error")
+            text = Text().get("retry_after_error")
             await emoji.edit_text(text.format(seconds))
 
         except (FileTypeError, FileEmptyError):
             await edit_message(emoji, "🙄")
             await asyncio.sleep(2)
 
-            text = Text(language_code).get("file_type_error")
+            text = Text().get("file_type_error")
             await emoji.edit_text(text)
 
         except TelegraphException:
             await edit_message(emoji, "❗️")
             await asyncio.sleep(2)
 
-            text = Text(language_code).get("another_error")
+            text = Text().get("another_error")
             await emoji.edit_text(text)
 
         finally:
@@ -88,7 +86,7 @@ async def message_upload(message: Message, state: FSMContext):
         emoji = await message.reply("🙄")
         await asyncio.sleep(2)
 
-        text = Text(language_code).get("file_type_error")
+        text = Text().get("file_type_error")
         await edit_message(emoji, text)
 
 
